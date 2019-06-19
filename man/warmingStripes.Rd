@@ -5,7 +5,8 @@
 \alias{warmingstripes}
 \title{warmingStripes}
 \usage{
-warmingStripes(input_file, startyear.mean = 1961, endyear.mean = 1990)
+warmingStripes(input_file, startyear.mean = 1961, endyear.mean = 1990,
+  style = "continuous")
 }
 \arguments{
 \item{input_file}{A character}
@@ -13,6 +14,8 @@ warmingStripes(input_file, startyear.mean = 1961, endyear.mean = 1990)
 \item{startyear.mean}{A number}
 
 \item{endyear.mean}{A number}
+
+\item{style}{A character}
 }
 \description{
 Create a plot with annual deviation from mean temperature

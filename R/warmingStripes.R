@@ -15,11 +15,12 @@
 #' @param input_file A character
 #' @param startyear.mean A number
 #' @param endyear.mean A number
+#' @param style A character
 
 # Created:     06/17/2019
 # Last edited: 06/19/2019
 
-warmingStripes <- function(input_file, startyear.mean = 1961, endyear.mean = 1990) {
+warmingStripes <- function(input_file, startyear.mean = 1961, endyear.mean = 1990, style = "continuous") {
 
   # import the annual temperatures
   df.temp <- utils::read.csv(input_file)
@@ -111,52 +112,57 @@ warmingStripes <- function(input_file, startyear.mean = 1961, endyear.mean = 199
 
   col_strip <- brewer.pal(11,"RdBu")
 
-  plot.warmingStripes <-
-    ggplot(df.temp.annual, aes(x=year, y=1, fill=deviationscat)) +
-    geom_tile() +
-    scale_x_date(date_breaks = "1 year",
-                 date_labels = "%Y",
-                 expand=c(0,0)) +
-    scale_y_continuous(expand=c(0,0)) +
-    scale_fill_manual(values = rev(col_strip)[sort(as.integer(levels(unique(df.temp.annual$deviationscat))))], name = "Abweichung\nvon der\nDurchschnitts-\ntemperatur\nin °C",
-                      labels = temp.lables[sort(as.integer(levels(unique(df.temp.annual$deviationscat))))]) +
-    # scale_fill_gradientn(colors = rev(col_strip)) +
-    #guides(fill=guide_colorbar(barwidth = 1, title = "Abweichung\nvom Mittelwert\nin K"))+
-    labs(title=paste("Abweichung von der Durchschnittstemperatur (",startyear.mean,"-",endyear.mean,") in Rostock-Warnemünde", sep=""),
-         caption="Quelle: Deutscher Wetterdienst und Scientists For Future Rostock")+
-    theme_minimal() +
-    theme(axis.text.y = element_blank(),
-          axis.line.y = element_blank(),
-          axis.title = element_blank(),
-          panel.grid.major=element_blank(),
-          axis.text.x=element_text(vjust=0.5),
-          panel.grid.minor=element_blank(),
-          plot.title=element_text(size=14,face="bold")
+  if(style == "discrete"){
+    plot.warmingStripes <-
+      ggplot(df.temp.annual, aes(x=year, y=1, fill=deviationscat)) +
+      geom_tile() +
+      scale_x_date(date_breaks = "1 year",
+                   date_labels = "%Y",
+                   expand=c(0,0)) +
+      scale_y_continuous(expand=c(0,0)) +
+      scale_fill_manual(values = rev(col_strip)[sort(as.integer(levels(unique(df.temp.annual$deviationscat))))], name = "Abweichung\nvon der\nDurchschnitts-\ntemperatur\nin °C",
+                        labels = temp.lables[sort(as.integer(levels(unique(df.temp.annual$deviationscat))))]) +
+      # scale_fill_gradientn(colors = rev(col_strip)) +
+      #guides(fill=guide_colorbar(barwidth = 1, title = "Abweichung\nvom Mittelwert\nin K"))+
+      labs(title=paste("Abweichung von der Durchschnittstemperatur (",startyear.mean,"-",endyear.mean,") in Rostock-Warnemünde", sep=""),
+           caption="Quelle: Deutscher Wetterdienst und Scientists For Future Rostock")+
+      theme_minimal() +
+      theme(axis.text.y = element_blank(),
+            axis.line.y = element_blank(),
+            axis.title = element_blank(),
+            panel.grid.major=element_blank(),
+            axis.text.x=element_text(vjust=0.5),
+            panel.grid.minor=element_blank(),
+            plot.title=element_text(size=14,face="bold")
       ) +
-    theme(axis.text.x = element_text(angle = 90))
+      theme(axis.text.x = element_text(angle = 90))
+  }
 
+  if(style == "continuous")
+  {
+    plot.warmingStripes <-
+      ggplot(df.temp.annual, aes(x=year, y=1, fill=deviations)) +
+      geom_tile() +
+      scale_x_date(date_breaks = "1 year",
+                   date_labels = "%Y",
+                   expand=c(0,0)) +
+      scale_y_continuous(expand=c(0,0)) +
+      scale_fill_gradientn(colors = rev(col_strip), limits = c(-deviation.range/2,deviation.range/2)) +
+      guides(fill=guide_colorbar(barwidth = 1, title = "Abweichung\nvon der\nDurchschnitts-\ntemperatur\nin °C")) +
+      labs(title=paste("Abweichung von der Durchschnittstemperatur (",startyear.mean,"-",endyear.mean,") in Rostock-Warnemünde", sep=""),
+           caption="Quelle: Deutscher Wetterdienst und Scientists For Future Rostock") +
+      theme_minimal() +
+      theme(axis.text.y = element_blank(),
+            axis.line.y = element_blank(),
+            axis.title = element_blank(),
+            panel.grid.major=element_blank(),
+            axis.text.x=element_text(vjust=0.5),
+            panel.grid.minor=element_blank(),
+            plot.title=element_text(size=14,face="bold")
+      ) +
+      theme(axis.text.x = element_text(angle = 90))
+  }
 
-  # plot.warmingStripes <-
-  #   ggplot(df.temp.annual, aes(x=year, y=1, fill=deviations)) +
-  #   geom_tile() +
-  #   scale_x_date(date_breaks = "1 year",
-  #                date_labels = "%Y",
-  #                expand=c(0,0)) +
-  #   scale_y_continuous(expand=c(0,0)) +
-  #   scale_fill_gradientn(colors = rev(col_strip)) +
-  #   guides(fill=guide_colorbar(barwidth = 1, title = "Abweichung\nvom Mittelwert\nin °C"))+
-  #   labs(title="Abweichung von der Durchschnittstemperatur (1961-1990) in Rostock-Warnemünde",
-  #        caption="Quelle: Deutscher Wetterdienst und Scientists For Future Rostock")+
-  #   theme_minimal() +
-  #   theme(axis.text.y = element_blank(),
-  #         axis.line.y = element_blank(),
-  #         axis.title = element_blank(),
-  #         panel.grid.major=element_blank(),
-  #         axis.text.x=element_text(vjust=0.5),
-  #         panel.grid.minor=element_blank(),
-  #         plot.title=element_text(size=14,face="bold")
-  #   ) +
-  #   theme(axis.text.x = element_text(angle = 90))
 
   ggsave(filename = "WarmingStripes.pdf", width = 297, height = 210, units = "mm")
 
