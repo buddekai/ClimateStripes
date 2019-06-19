@@ -49,9 +49,9 @@ warmingStripes <- function(input_file, startyear.mean = 1961, endyear.mean = 199
   print(paste("Temperature mean from ",
               startyear.mean,
               " until ",
-              round(endyear.mean, digits = 1),
+              endyear.mean,
               ": ",
-              mean.from.start.to.endyear,
+              round(mean.from.start.to.endyear, digits = 1),
               "°C.",
               sep=""))
   print(paste("Year with highest negative deviation from mean: ",
@@ -78,19 +78,20 @@ warmingStripes <- function(input_file, startyear.mean = 1961, endyear.mean = 199
   # Deviations as categories
   df.temp.annual$deviationscat <- 1
   deviation.range <- max(df.temp.annual$deviations)-min(df.temp.annual$deviations)
+  deviation.range <- 2*max(abs(min(df.temp.annual$deviations)), abs(max(df.temp.annual$deviations)))
+
   temp.lables <- replicate(11, NaN)
   for(i in 1:11){
     for(j in 1:length(df.temp.annual$year)){
-      if(df.temp.annual$deviations[j] >= (min(df.temp.annual$deviations) + (i-1) * deviation.range/11)){
+      if(df.temp.annual$deviations[j] >= (-0.5*deviation.range + (i-1) * deviation.range/11)){
         df.temp.annual$deviationscat[j] <- i
       }
-      temp.lables[i] <- paste(
-        round(min(df.temp.annual$deviations) + (i-1) * deviation.range/11, digits = 1),
-        " .. ",
-        round(min(df.temp.annual$deviations) + (i) * deviation.range/11, digits = 1),
-        sep="")
-
     }
+    temp.lables[i] <- paste(
+      round(-0.5*deviation.range + (i-1) * deviation.range/11, digits = 1),
+      " .. ",
+      round(-0.5*deviation.range + (i) * deviation.range/11, digits = 1),
+      sep="")
   }
   df.temp.annual$deviationscat <- as.factor(df.temp.annual$deviationscat)
 
@@ -117,8 +118,8 @@ warmingStripes <- function(input_file, startyear.mean = 1961, endyear.mean = 199
                  date_labels = "%Y",
                  expand=c(0,0)) +
     scale_y_continuous(expand=c(0,0)) +
-    scale_fill_manual(values = rev(col_strip), name = "Abweichung\nvom Mittelwert\nin °C",
-                      labels = temp.lables) +
+    scale_fill_manual(values = rev(col_strip)[sort(as.integer(levels(unique(df.temp.annual$deviationscat))))], name = "Abweichung\nvon der\nDurchschnitts-\ntemperatur\nin °C",
+                      labels = temp.lables[sort(as.integer(levels(unique(df.temp.annual$deviationscat))))]) +
     # scale_fill_gradientn(colors = rev(col_strip)) +
     #guides(fill=guide_colorbar(barwidth = 1, title = "Abweichung\nvom Mittelwert\nin K"))+
     labs(title=paste("Abweichung von der Durchschnittstemperatur (",startyear.mean,"-",endyear.mean,") in Rostock-Warnemünde", sep=""),
