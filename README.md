@@ -9,7 +9,7 @@ In order to create a warming stripes plot of Rostock (example data), one needs t
 ```R
 library(devtools)
 install()
-require(warmingStripes)
+require(WarmingStripes)
 input_file <- "inst/data/data_TMK_MN004.csv"
 warmingStripes(input_file = input_file)
 ```

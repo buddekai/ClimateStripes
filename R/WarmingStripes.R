@@ -5,8 +5,9 @@
 #' red colors stand for higher mean temperatures and dark blue colors for
 #' lower mean temperatures.
 #' @aliases warmingstripes
+#' @aliases warmingStripes
 #' @author Kai Budde
-#' @export warmingStripes
+#' @export WarmingStripes
 #' @import ggplot2
 #' @import dplyr
 #' @import lubridate
@@ -18,9 +19,16 @@
 #' @param style A character
 
 # Created:     06/17/2019
-# Last edited: 06/19/2019
+# Last edited: 06/21/2019
 
-warmingStripes <- function(input_file, startyear.mean = 1961, endyear.mean = 1990, style = "continuous") {
+WarmingStripes <- function(input_file,
+                           startyear.mean = 1961,
+                           endyear.mean = 1990,
+                           style = "continuous") {
+
+  # Set warnings off
+  oldw <- getOption("warn")
+  options(warn = -1)
 
   # import the annual temperatures
   df.temp <- utils::read.csv(input_file)
@@ -165,5 +173,8 @@ warmingStripes <- function(input_file, startyear.mean = 1961, endyear.mean = 199
 
 
   ggsave(filename = "WarmingStripes.pdf", width = 297, height = 210, units = "mm")
+
+  # Turn warnings on
+  options(warn = oldw)
 
   }
