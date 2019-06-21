@@ -1,9 +1,9 @@
 #' @title warmingStripes
 #' @description Create a plot with annual deviation from mean temperature
-#' @details The package creats a barplot where every colored bar represents
-#' the deviation of the annual mean temperature from a 30-years mean. Dark
-#' red colors stand for higher mean temperatures and dark blue colors for
-#' lower mean temperatures.
+#' @details This main function of the package creates a barplot where every
+#' colored bar represents the deviation of the annual mean temperature from
+#' a 30-years mean. Dark red colors stand for higher mean temperatures and
+#' dark blue colors for lower mean temperatures.
 #' @aliases warmingstripes
 #' @aliases warmingStripes
 #' @author Kai Budde
