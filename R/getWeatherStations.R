@@ -8,8 +8,8 @@
 #' @author Kai Budde
 #' @export getWeatherStations
 
-# Created:     06/17/2019
-# Last edited: 06/21/2019
+# Created:     06/21/2019
+# Last edited: 06/23/2019
 
 getWeatherStations <- function(){
 
@@ -27,19 +27,32 @@ getWeatherStations <- function(){
   column.widths <- c(5, 9, 9, 15, 12, 10, 41, 97)
 
   # Download file
-  download.file(url = website.stations, destfile = filename.stations, method = "auto", quiet = TRUE, mode = "w",
+  download.file(url = website.stations, destfile = filename.stations,
+                method = "auto", quiet = TRUE, mode = "w",
                 cacheOK = TRUE)
 
   # Create Data Frame with information
-  df <- read.fwf(file = filename.stations, widths = column.widths, skip = 2, fileEncoding = "latin1")
+  df.weather.stations <- read.fwf(
+    file = filename.stations,
+    widths = column.widths, skip = 2, fileEncoding = "latin1")
 
+  # Get header and insert as column names
   header <- readLines(con = file(filename.stations), n = 1)
-  header <- strsplit(header, split = " ")
+  header <- unlist(strsplit(header, split = " "))
+  names(df.weather.stations) <- header
 
+  # Delete empty spaces at the beginning/end of the field
+  df.weather.stations[[7]] <- gsub("^ +", "", df.weather.stations[[7]])
+  df.weather.stations[[7]] <- gsub(" +$", "", df.weather.stations[[7]])
+
+  df.weather.stations[[8]] <- gsub("^ +", "", df.weather.stations[[8]])
+  df.weather.stations[[8]] <- gsub(" +$", "", df.weather.stations[[8]])
 
   # Remove downloaded file
   invisible(file.remove(filename.stations))
 
   # Reset options
-  options(old.options)
+  options(stringsAsFactors = old.options)
+
+  return(df.weather.stations)
 }

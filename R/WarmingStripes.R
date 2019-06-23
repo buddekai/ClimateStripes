@@ -13,15 +13,17 @@
 #' @import lubridate
 #' @import RColorBrewer
 #' @import utils
-#' @param input_file A character
+#' @param city.name A character
+#' @param weather.station.id A character
 #' @param startyear.mean A number
 #' @param endyear.mean A number
 #' @param style A character
 
 # Created:     06/17/2019
-# Last edited: 06/21/2019
+# Last edited: 06/23/2019
 
-WarmingStripes <- function(input_file,
+WarmingStripes <- function(city.name = NULL,
+                           weather.station.id = NULL,
                            startyear.mean = 1961,
                            endyear.mean = 1990,
                            style = "continuous") {
@@ -29,6 +31,29 @@ WarmingStripes <- function(input_file,
   # Set warnings off
   oldw <- getOption("warn")
   options(warn = -1)
+
+  # Get the correct station data
+  if(!is.null(weather.station.id)){
+
+
+  }else if(!is.null(city.name)){
+    df.weather.stations <- getWeatherStations()
+    line.of.station <- grep(city.name, df.weather.stations$Stationsname, ignore.case = TRUE)
+    if(length(line.of.station) == 0){
+      print("Station name not found")
+      return(0)
+    }
+
+    weather.station.id <- df.weather.stations$Stations_id[line.of.station]
+
+  }else{
+
+    print("Please provide a city or weather station ID.")
+    return(0)
+  }
+
+  # Download the data files
+
 
   # import the annual temperatures
   df.temp <- utils::read.csv(input_file)
