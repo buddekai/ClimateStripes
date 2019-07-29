@@ -17,9 +17,14 @@ getWeatherStations <- function(){
   options(stringsAsFactors = FALSE)
 
   # Definitions
-  website.stations <- paste("ftp://ftp-cdc.dwd.de/pub/CDC/",
-                            "observations_germany/climate/daily/",
-                            "kl/historical/",
+  #website.stations <- paste("ftp://ftp-cdc.dwd.de/pub/CDC/",
+  #                          "observations_germany/climate/daily/",
+  #                          "kl/historical/",
+  #                          "KL_Tageswerte_Beschreibung_Stationen.txt",
+  #                          sep="")
+  website.stations <- paste("ftp://ftp-cdc.dwd.de/climate_environment/",
+                            "CDC/observations_germany/climate/daily/kl/",
+                            "historical/",
                             "KL_Tageswerte_Beschreibung_Stationen.txt",
                             sep="")
 

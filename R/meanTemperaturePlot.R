@@ -1,74 +1,36 @@
-#' @title warmingStripes
-#' @description Create a plot with annual deviation from mean temperature
-#' @details This main function of the package creates a barplot where every
-#' colored bar represents the deviation of the annual mean temperature from
-#' a 30-years mean. Dark red colors stand for higher mean temperatures and
-#' dark blue colors for lower mean temperatures.
-#' @aliases warmingstripes
-#' @aliases warmingStripes
+#' @title meanTemperaturePlot
+#' @description Plot the mean temperature data
+#' @details This function takes a data frame with daily temperature data for
+#' given station, calculates annual mean and plots it.
+#' @aliases meantemperatureplot
+#' @aliases meantemperaturePlot
+#' @aliases meanTemperatureplot
 #' @author Kai Budde
-#' @export WarmingStripes
 #' @import ggplot2
-#' @import dplyr
-#' @import lubridate
 #' @import RColorBrewer
-#' @import utils
-#' @param city.name A character
-#' @param weather.station.id A character
-#' @param startyear.mean A number
+#' @export meanTemperaturePlot
+#' @param df.temp A data frame
+#' @param staryear.mean A number
 #' @param endyear.mean A number
-#' @param style A character
 
-# Created:     06/17/2019
-# Last edited: 06/23/2019
+# Created:     07/20/2019
+# Last edited: 07/20/2019
 
-WarmingStripes <- function(city.name = NULL,
-                           weather.station.id = NULL,
-                           startyear.mean = 1961,
-                           endyear.mean = 1990,
-                           style = "continuous") {
-
-  # Set warnings off
-  oldw <- getOption("warn")
-  options(warn = -1)
-
-  # Get the correct station data
-  if(!is.null(weather.station.id)){
-
-
-  }else if(!is.null(city.name)){
-    df.weather.stations <- getWeatherStations()
-    line.of.station <- grep(city.name, df.weather.stations$Stationsname, ignore.case = TRUE)
-    if(length(line.of.station) == 0){
-      print("Station name not found")
-      return(0)
-    }
-
-    weather.station.id <- df.weather.stations$Stations_id[line.of.station]
-
-  }else{
-
-    print("Please provide a city or weather station ID.")
-    return(0)
-  }
-
-  # Download the data files
-
-
-  # import the annual temperatures
-  df.temp <- utils::read.csv(input_file)
+meanTemperaturePlot <- function(df.temp, startyear.mean, endyear.mean){
 
   # Calculate annual temperature
-  df.temp$date <- as.character(df.temp$Zeitstempel)
+  df.temp$TMK <- as.numeric(df.temp$TMK)
+  df.temp$date <- as.character(df.temp$MESS_DATUM)
   df.temp$date <-  as.Date(df.temp$date, "%Y%m%d")
   df.temp$year <-  year(df.temp$date)
-  df.temp.annual <- group_by(df.temp, year) %>% summarise(mean = mean(Wert))
+  df.temp.annual <- group_by(df.temp, year) %>% summarise(mean = mean(TMK))
 
   # Delete current year
   current.year <- year(Sys.time())
   df.temp.annual <- df.temp.annual[!(df.temp.annual$year == current.year),]
 
-  # Calculate annual mean from 1961 until 1990
+  # Calculate annual mean from start year (should be 1961) until
+  # end year (should be 1990)
   mean.from.start.to.endyear <- mean(df.temp.annual$mean[df.temp.annual$year>= startyear.mean & df.temp.annual$year<= endyear.mean])
 
   df.temp.annual$deviations <- df.temp.annual$mean - mean.from.start.to.endyear
@@ -196,10 +158,9 @@ WarmingStripes <- function(city.name = NULL,
       theme(axis.text.x = element_text(angle = 90))
   }
 
-
   ggsave(filename = "WarmingStripes.pdf", width = 297, height = 210, units = "mm")
 
-  # Turn warnings on
-  options(warn = oldw)
+  return(plot.warmingStripes)
 
-  }
+}
+
