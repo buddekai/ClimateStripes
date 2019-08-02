@@ -25,7 +25,7 @@
 # Created:     06/17/2019
 # Last edited: 07/20/2019
 
-WarmingStripes <- function(city.name = NULL,
+ClimateStripes <- function(city.name = NULL,
                            weather.station.id = NULL,
                            startyear.mean = 1961,
                            endyear.mean = 1990,
