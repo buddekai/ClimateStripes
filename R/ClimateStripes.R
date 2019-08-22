@@ -39,7 +39,7 @@ ClimateStripes <- function(city.name = NULL,
   #                      "observations_germany/climate/daily/",
   #                      "kl/historical/", sep="")
 
-  json.file <- "./inst/links.json"
+  json.file <- system.file("links.json", package = "ClimateStripes")
   filename.data <- "data.zip"
 
   # Get the correct station data ###########################################
@@ -60,6 +60,7 @@ ClimateStripes <- function(city.name = NULL,
     }
 
     weather.station.id <- df.weather.stations$Stations_id[line.of.station]
+    station.name <- df.weather.stations$Stationsname[line.of.station]
 
   }else{
 
@@ -82,7 +83,8 @@ ClimateStripes <- function(city.name = NULL,
   # for the specific station ID
   filenames <- getURL(url = climate.data, ftp.use.epsv = FALSE,
                       dirlistonly = TRUE)
-  filenames <- strsplit(filenames, "\r\n")
+  filenames <- gsub(pattern = "\r", replacement = "", filenames)
+  filenames <- strsplit(filenames, "\n")
   filenames <- unlist(filenames)
 
   filename.climate.data <- filenames[
@@ -91,6 +93,7 @@ ClimateStripes <- function(city.name = NULL,
 
   filename.climate.data <- paste(climate.data, filename.climate.data,
                                  sep="")
+
   # Download zip-container
   download.file(url = filename.climate.data, destfile = filename.data,
                 method = "auto", quiet = TRUE, mode = "wb",
@@ -119,7 +122,8 @@ ClimateStripes <- function(city.name = NULL,
 
   # Yearly mean temperature ###
   if( plot.what == "all" | plot.what == "warmingstripes"){
-    plot <- plotWarmingStripes(df.data, startyear.mean, endyear.mean, style)
+    plot <- plotWarmingStripes(df.data, startyear.mean, endyear.mean, style,
+                               station.name)
   }else{
     print(paste("Nothing plotted.Please enter a suitable value for ",
                 "the parameter plot.what.", sep = ""))

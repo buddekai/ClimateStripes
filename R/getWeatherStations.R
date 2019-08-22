@@ -21,7 +21,7 @@ getWeatherStations <- function(){
   # Definitions ############################################################
   # Current url with climate data is written in "./inst/links.json"
 
-  json.file <- "./inst/links.json"
+  json.file <- system.file("links.json", package = "ClimateStripes")
   json.file <- fromJSON(file = json.file)
 
   website.stations <- json.file$DWDstations

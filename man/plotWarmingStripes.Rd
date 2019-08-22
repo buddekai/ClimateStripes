@@ -6,14 +6,18 @@
 \title{plotWarmingStripes}
 \usage{
 plotWarmingStripes(df.temp, startyear.mean, endyear.mean,
-  style = "continuous")
+  style = "continuous", station.name = NULL)
 }
 \arguments{
 \item{df.temp}{A data frame}
 
+\item{startyear.mean}{A number}
+
 \item{endyear.mean}{A number}
 
-\item{staryear.mean}{A number}
+\item{style}{A character}
+
+\item{station.name}{a character}
 }
 \description{
 Plot the mean temperature data

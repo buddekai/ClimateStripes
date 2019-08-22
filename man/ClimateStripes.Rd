@@ -18,8 +18,8 @@ ClimateStripes(city.name = NULL, weather.station.id = NULL,
 
 \item{endyear.mean}{A number}
 
-\item{plot.what}{A character (can be temperature, precipitation, sunlight,
-windspeed)}
+\item{plot.what}{A character (can be warmingstripes, precipitation,
+sunlight, windspeed)}
 
 \item{style}{A character (could be for
 plot.what == temperature: continuous or ...)}
