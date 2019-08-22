@@ -1,14 +1,16 @@
-Package: WarmingStripes
+Package: ClimateStripes
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.2.0
+Title: Create climate plots for weather stations of DWD (German
+    Meteorological Service).
+Version: 0.3.0
 Author: c(person("Kai", "Budde", email = "kai.budde@uni-rostock.de",
     role = c("aut", "cre"))
 Maintainer: Kai Budde <kai.budde@uni-rostock.de>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Creates plots such as a warming stripes plot for climate data
+    collected by the Deutscher Wetterdienst (DWD = German Meteorological
+    Service).
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: ggplot2, lubridate, dplyr, RColorBrewer, utils
+Imports: RCurl, ggplot2, dplyr, lubridate, RColorBrewer, utils, rjson
 RoxygenNote: 6.1.1

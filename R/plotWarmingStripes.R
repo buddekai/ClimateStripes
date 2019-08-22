@@ -1,22 +1,26 @@
-#' @title meanTemperaturePlot
+#' @title plotWarmingStripes
 #' @description Plot the mean temperature data
 #' @details This function takes a data frame with daily temperature data for
 #' given station, calculates annual mean and plots it.
-#' @aliases meantemperatureplot
-#' @aliases meantemperaturePlot
-#' @aliases meanTemperatureplot
+#' @aliases plotwarmingstripes
+#' @aliases plotWarmingstripes
+#' @aliases plotwarmingStripes
 #' @author Kai Budde
+#' @export plotWarmingStripes
+#' @import lubridate
+#' @import dplyr
 #' @import ggplot2
 #' @import RColorBrewer
-#' @export meanTemperaturePlot
 #' @param df.temp A data frame
 #' @param staryear.mean A number
 #' @param endyear.mean A number
+#' @param style A character
 
 # Created:     07/20/2019
-# Last edited: 07/20/2019
+# Last edited: 08/22/2019
 
-meanTemperaturePlot <- function(df.temp, startyear.mean, endyear.mean){
+plotWarmingStripes <- function(df.temp, startyear.mean, endyear.mean,
+                               style = "continuous"){
 
   # Calculate annual temperature
   df.temp$TMK <- as.numeric(df.temp$TMK)
