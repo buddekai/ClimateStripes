@@ -122,12 +122,16 @@ ClimateStripes <- function(city.name = NULL,
 
   # Yearly mean temperature ###
   if( plot.what == "all" | plot.what == "warmingstripes"){
-    plot <- plotWarmingStripes(df.data, startyear.mean, endyear.mean, style,
-                               station.name)
-  }else{
+    plot <- plotWarmingStripes(df.data, startyear.mean, endyear.mean,
+                               style, station.name)
+    }else if( plot.what == "all" | plot.what == "precipitationstripes"){
+    plot <- plotPrecipitationStripes(df.data, startyear.mean, endyear.mean,
+                                     style, station.name)
+    }else{
     print(paste("Nothing plotted.Please enter a suitable value for ",
                 "the parameter plot.what.", sep = ""))
-  }
+    }
+
 
   # Reset options ##########################################################
   # Turn warnings on

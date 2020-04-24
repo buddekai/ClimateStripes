@@ -2,6 +2,7 @@
 
 export(ClimateStripes)
 export(getWeatherStations)
+export(plotPrecipitationStripes)
 export(plotWarmingStripes)
 import(RColorBrewer)
 import(RCurl)

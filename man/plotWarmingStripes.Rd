@@ -8,7 +8,7 @@
 \title{plotWarmingStripes}
 \usage{
 plotWarmingStripes(
-  df.temp,
+  df,
   startyear.mean,
   endyear.mean,
   style = "continuous",
@@ -16,7 +16,7 @@ plotWarmingStripes(
 )
 }
 \arguments{
-\item{df.temp}{A data frame}
+\item{df}{A data frame}
 
 \item{startyear.mean}{A number}
 
@@ -27,11 +27,12 @@ plotWarmingStripes(
 \item{station.name}{a character}
 }
 \description{
-Plot the mean temperature data
+Plot the deviation of mean temperature per year
 }
 \details{
 This function takes a data frame with daily temperature data for
-given station, calculates annual mean and plots it.
+given station, calculates annual mean and the deviation from a
+reference period and plots the deviations a color coded bars.
 }
 \author{
 Kai Budde
