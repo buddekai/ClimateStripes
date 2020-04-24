@@ -3,11 +3,17 @@
 \name{ClimateStripes}
 \alias{ClimateStripes}
 \alias{warmingstripes}
+\alias{warmingStripes}
 \title{climateStripes}
 \usage{
-ClimateStripes(city.name = NULL, weather.station.id = NULL,
-  startyear.mean = 1961, endyear.mean = 1990, plot.what = "all",
-  style = "continuous")
+ClimateStripes(
+  city.name = NULL,
+  weather.station.id = NULL,
+  startyear.mean = 1961,
+  endyear.mean = 1990,
+  plot.what = "all",
+  style = "continuous"
+)
 }
 \arguments{
 \item{city.name}{A character}

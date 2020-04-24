@@ -17,8 +17,8 @@
 #' @param style A character
 #' @param station.name a character
 
-# Created:     07/20/2019
-# Last edited: 08/22/2019
+# Created:     2019/07/20
+# Last edited: 2020/04/24
 
 plotWarmingStripes <- function(df.temp, startyear.mean, endyear.mean,
                                style = "continuous",
@@ -125,7 +125,7 @@ plotWarmingStripes <- function(df.temp, startyear.mean, endyear.mean,
   if(style == "discrete"){
     plot.warmingStripes <-
       ggplot(df.temp.annual, aes(x=year, y=1, fill=deviationscat)) +
-      geom_tile() +
+      geom_raster() +
       scale_x_date(date_breaks = "1 year",
                    date_labels = "%Y",
                    expand=c(0,0)) +
@@ -159,7 +159,7 @@ plotWarmingStripes <- function(df.temp, startyear.mean, endyear.mean,
   {
     plot.warmingStripes <-
       ggplot(df.temp.annual, aes(x=year, y=1, fill=deviations)) +
-      geom_tile() +
+      geom_raster()+
       scale_x_date(date_breaks = "1 year",
                    date_labels = "%Y",
                    expand=c(0,0)) +
@@ -169,7 +169,7 @@ plotWarmingStripes <- function(df.temp, startyear.mean, endyear.mean,
         limits = c(-deviation.range/2,deviation.range/2)) +
       guides(
         fill=guide_colorbar(
-          barwidth = 1,
+          barwidth = 1.5,
           #title = expression(paste("Abweichung\nvon der\nDurchschnitts-\ntemperatur\nin ",
           #                         degree, "C n ", sep="")))) +
           title = paste("Abweichung\nvon der\nDurchschnitts-\n",

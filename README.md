@@ -3,8 +3,10 @@
 R package to create diagrams that show the impact of climate change.
 It started with an R function to plot Warming Stripes which were inspired by Ed Hawkins.
 The R package can now fetch data from Deutscher Wetterdienst (DWD) and plot:
- - warming stripes (annual mean temperatur as colored bars)
- - 
+
+* warming stripes (annual deviation from an average temperatur (1961-1990) as colored bars)
+
+(Most recent additions may be found in the develop-branch.)
 
 ## How to install the package and use it
 

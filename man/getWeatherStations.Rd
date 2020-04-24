@@ -3,6 +3,8 @@
 \name{getWeatherStations}
 \alias{getWeatherStations}
 \alias{getweatherstations}
+\alias{getWeatherstations}
+\alias{getweatherStations}
 \title{getWeatherStations}
 \usage{
 getWeatherStations()
