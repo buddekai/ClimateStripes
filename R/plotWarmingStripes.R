@@ -112,7 +112,9 @@ plotWarmingStripes <- function(df, startyear.mean, endyear.mean,
 
   col_strip <- brewer.pal(11,"RdBu")
 
-  # Creating plot
+  # Plotting ###############################################################
+
+  # Creating stripes plot
   if(style == "discrete"){
     plot.warmingStripes <-
       ggplot(df.annual, aes(x=year, y=1, fill=deviationscat)) +
@@ -185,7 +187,33 @@ plotWarmingStripes <- function(df, startyear.mean, endyear.mean,
   ggsave(filename = "WarmingStripes.png", width = 297,
          height = 210, units = "mm")
 
-  print(paste("Plot saved in ", getwd(), ".", sep=""))
+  # Plot connected points
+  plot.warmingPoints <-
+    ggplot(df.annual, aes(x=year, y=mean)) +
+    geom_point() +
+    geom_line() +
+    ylab("Mittlere Jahrestemperatur in \u00B0C") +
+    scale_x_date(date_breaks = "1 year",
+                 date_labels = "%Y",
+                 expand=c(0.01, 0)) +
+    geom_hline(yintercept=mean.from.start.to.endyear, color = "red") +
+    labs(title=paste("Jahresdurchschnittstemperatur in ",
+                     station.name,
+                     " (Rote Linie: Durchschnitt der Jahre ",
+                     startyear.mean, "-", endyear.mean, ")",
+                     sep=""),
+         caption=paste("Quelle: Deutscher Wetterdienst und Scientists ",
+                       "For Future Rostock", sep="")) +
+    theme_bw() +
+    theme(axis.text.x = element_text(vjust=0.5, angle = 90),
+          plot.title = element_text(size=14,face="bold"),
+          panel.grid.minor=element_blank(),
+          axis.title.x = element_blank())
+
+  ggsave(filename = "WarmingPoints.pdf", width = 297,
+         height = 210, units = "mm")
+  ggsave(filename = "WarmingPoints.png", width = 297,
+         height = 210, units = "mm")
 
   return(plot.warmingStripes)
 

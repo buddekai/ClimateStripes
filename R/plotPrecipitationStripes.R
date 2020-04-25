@@ -20,7 +20,7 @@
 #' @param station.name a character
 
 # Created:     2020/04/24
-# Last edited: 2020/04/24
+# Last edited: 2020/04/25
 
 plotPrecipitationStripes <- function(df, startyear.mean, endyear.mean,
                               style = "continuous",
@@ -116,7 +116,8 @@ plotPrecipitationStripes <- function(df, startyear.mean, endyear.mean,
 
   col_strip <- brewer.pal(11, "BrBG")
 
-  # Creating plot
+  # Plotting ###############################################################
+  # Creating stripes plot
   if(style == "discrete"){
     plot.precipitationStripes <-
       ggplot(df.annual, aes(x=year, y=1, fill=deviationscat)) +
@@ -133,7 +134,7 @@ plotPrecipitationStripes <- function(df, startyear.mean, endyear.mean,
         labels = plot.lables[
           sort(as.integer(levels(unique(df.annual$deviationscat))))],
         guide = guide_legend(reverse=TRUE)) +
-      labs(title=paste("Abweichung von der Durchscnittsgesamtjahresniederschlagsmenge (",
+      labs(title=paste("Abweichung von der Durchschnittsgesamtjahresniederschlagsmenge (",
                        startyear.mean, "-", endyear.mean, ") in ",
                        station.name, sep=""),
            caption=paste("Quelle: Deutscher Wetterdienst und Scientists ",
@@ -143,11 +144,10 @@ plotPrecipitationStripes <- function(df, startyear.mean, endyear.mean,
             axis.line.y = element_blank(),
             axis.title = element_blank(),
             panel.grid.major=element_blank(),
-            axis.text.x=element_text(vjust=0.5),
+            axis.text.x=element_text(vjust=0.5, angle = 90),
             panel.grid.minor=element_blank(),
             plot.title=element_text(size=14,face="bold")
-      ) +
-      theme(axis.text.x = element_text(angle = 90))
+      )
   }
 
   if(style == "continuous")
@@ -167,7 +167,7 @@ plotPrecipitationStripes <- function(df, startyear.mean, endyear.mean,
           barwidth = 1.5,
           title = paste("Abweichung\nvon der\nDurchschnitts-\n",
                         "gesamtjahres-\nniederschlags-\nmenge in mm", sep=""))) +
-      labs(title=paste("Abweichung von der Durchscnittsgesamtjahresniederschlagsmenge (",
+      labs(title=paste("Abweichung von der Durchschnittsgesamtjahresniederschlagsmenge (",
                        startyear.mean, "-", endyear.mean, ") in ",
                        station.name, sep=""),
            caption=paste("Quelle: Deutscher Wetterdienst und Scientists ",
@@ -177,11 +177,10 @@ plotPrecipitationStripes <- function(df, startyear.mean, endyear.mean,
             axis.line.y = element_blank(),
             axis.title = element_blank(),
             panel.grid.major=element_blank(),
-            axis.text.x=element_text(vjust=0.5),
+            axis.text.x=element_text(vjust=0.5, angle = 90),
             panel.grid.minor=element_blank(),
             plot.title=element_text(size=14,face="bold")
-      ) +
-      theme(axis.text.x = element_text(angle = 90))
+      )
   }
 
   ggsave(filename = "PrecipitationStripes.pdf", width = 297,
@@ -189,6 +188,34 @@ plotPrecipitationStripes <- function(df, startyear.mean, endyear.mean,
   ggsave(filename = "PrecipitationStripes.png", width = 297,
          height = 210, units = "mm")
 
-  print(paste("Plot saved in ", getwd(), ".", sep=""))
+  # Plot connected points
+  plot.precipitationPoints <-
+    ggplot(df.annual, aes(x=year, y=sum)) +
+    geom_point() +
+    geom_line() +
+    ylab("Niederschlag in mm/Jahr") +
+    scale_x_date(date_breaks = "1 year",
+                 date_labels = "%Y",
+                 expand=c(0.01, 0)) +
+    geom_hline(yintercept=mean.from.start.to.endyear, color = "red") +
+    labs(title=paste("Jahresgesamtniederschlag in ",
+                     station.name,
+                     " (Rote Linie: Durchschnitt der Jahre ",
+                     startyear.mean, "-", endyear.mean, ")",
+                     sep=""),
+         caption=paste("Quelle: Deutscher Wetterdienst und Scientists ",
+                       "For Future Rostock", sep="")) +
+    theme_bw() +
+    theme(axis.text.x = element_text(vjust=0.5, angle = 90),
+          plot.title = element_text(size=14,face="bold"),
+          panel.grid.minor=element_blank(),
+          axis.title.x = element_blank())
+
+  ggsave(filename = "PrecipitationPoints.pdf", width = 297,
+         height = 210, units = "mm")
+  ggsave(filename = "PrecipitationPoints.png", width = 297,
+         height = 210, units = "mm")
+
+  return(plot.precipitationStripes)
 
 }

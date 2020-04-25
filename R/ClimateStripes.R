@@ -18,8 +18,8 @@
 #' @param style A character (could be for
 #' plot.what == temperature: continuous or ...)
 
-# Created:     06/17/2019
-# Last edited: 08/22/2019
+# Created:     2019/06/17
+# Last edited: 2020/04/25
 
 ClimateStripes <- function(city.name = NULL,
                            weather.station.id = NULL,
@@ -34,10 +34,6 @@ ClimateStripes <- function(city.name = NULL,
 
   old.options <- getOption("stringsAsFactors")
   options(stringsAsFactors = FALSE)
-
-  #climate.data <- paste("ftp://ftp-cdc.dwd.de/climate_environment/CDC/",
-  #                      "observations_germany/climate/daily/",
-  #                      "kl/historical/", sep="")
 
   json.file <- system.file("links.json", package = "ClimateStripes")
   filename.data <- "data.zip"
@@ -116,7 +112,7 @@ ClimateStripes <- function(city.name = NULL,
   # Remove unzipped files
   invisible(unlink(x = "unzippedData", recursive = TRUE))
 
-  # Work with data supposed to be shown ####################################
+  # Plot data supposed to be shown #########################################
 
   plot.what <- tolower(plot.what)
 
@@ -124,14 +120,20 @@ ClimateStripes <- function(city.name = NULL,
   if( plot.what == "all" | plot.what == "warmingstripes"){
     plot <- plotWarmingStripes(df.data, startyear.mean, endyear.mean,
                                style, station.name)
+    # Yearly precipitation ###
     }else if( plot.what == "all" | plot.what == "precipitationstripes"){
     plot <- plotPrecipitationStripes(df.data, startyear.mean, endyear.mean,
                                      style, station.name)
+    # Nothing to plot ###
     }else{
-    print(paste("Nothing plotted.Please enter a suitable value for ",
+      print(paste("Nothing plotted.Please enter a suitable value for ",
                 "the parameter plot.what.", sep = ""))
+      nothingplotted <- FALSE
     }
 
+  if(!nothingplotted){
+    print(paste("Plot saved in ", getwd(), ".", sep=""))
+  }
 
   # Reset options ##########################################################
   # Turn warnings on

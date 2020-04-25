@@ -10,8 +10,8 @@
 #' @import rjson
 #' @import utils
 
-# Created:     06/21/2019
-# Last edited: 08/22/2019
+# Created:     2019/06/21
+# Last edited: 2020/04/25
 
 getWeatherStations <- function(){
 
@@ -25,23 +25,6 @@ getWeatherStations <- function(){
   json.file <- fromJSON(file = json.file)
 
   website.stations <- json.file$DWDstations
-
-  #website.stations <- paste("ftp://ftp-cdc.dwd.de/pub/CDC/",
-  #                          "observations_germany/climate/daily/",
-  #                          "kl/historical/",
-  #                          "KL_Tageswerte_Beschreibung_Stationen.txt",
-  #                          sep="")
-  #website.stations <- paste("ftp://ftp-cdc.dwd.de/climate_environment/",
-  #                          "CDC/observations_germany/climate/daily/kl/",
-  #                          "historical/",
-  #                          "KL_Tageswerte_Beschreibung_Stationen.txt",
-  #                          sep="")
-
-  #website.stations <- paste("https://opendata.dwd.de/climate_environment/",
-  #                          "CDC/observations_germany/climate/daily/kl/",
-  #                          "historical/",
-  #                          "KL_Tageswerte_Beschreibung_Stationen.txt",
-  #                          sep="")
 
   filename.stations <- "DWDstations.txt"
   column.widths <- c(5, 9, 9, 15, 12, 10, 41, 97)
