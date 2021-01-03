@@ -1,4 +1,4 @@
-Package: ClimateStripes
+Package: climateStripes
 Type: Package
 Title: Create climate plots for weather stations of DWD (German
     Meteorological Service)
@@ -13,4 +13,4 @@ License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: RCurl, ggplot2, dplyr, lubridate, RColorBrewer, utils, rjson
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1

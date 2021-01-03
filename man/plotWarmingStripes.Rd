@@ -33,6 +33,12 @@ Plot the deviation of mean temperature per year
 This function takes a data frame with daily temperature data for
 given station, calculates annual mean and the deviation from a
 reference period and plots the deviations a color coded bars.
+
+
+This main function of the package creates a barplot where every
+colored bar represents the deviation of the annual mean temperature from
+a 30-years mean. Dark red colors stand for higher mean temperatures and
+dark blue colors for lower mean temperatures.
 }
 \author{
 Kai Budde

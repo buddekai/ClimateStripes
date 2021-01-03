@@ -1,7 +1,7 @@
 README
 ================
 
-ClimateStripes
+climateStripes
 --------------
 
 R package to create diagrams that show the impact of climate change. It started with an R function to plot Warming Stripes which were inspired by Ed Hawkins. The R package can now fetch data from Deutscher Wetterdienst (DWD) and plot:
@@ -18,8 +18,8 @@ In order to create all possible plots for the DWD station in Rostock, one needs 
 ``` r
 library(devtools)
 install()
-require(ClimateStripes)
-ClimateStripes(city.name = "rostock")
+require("climateStripes")
+climateStripes(city.name = "rostock")
 ```
 
 ### Examples: How to create different climate plots
@@ -29,8 +29,8 @@ ClimateStripes(city.name = "rostock")
 ``` r
 library(devtools)
 install()
-require(ClimateStripes)
-ClimateStripes(city.name = "rostock", plot.what = "warmingstripes")
+require("climateStripes")
+climateStripes(city.name = "rostock", plot.what = "warmingstripes")
 ```
 
 ``` r
@@ -44,8 +44,8 @@ knitr::include_graphics("man/figures/WarmingStripes.png")
 ``` r
 library(devtools)
 install()
-require(ClimateStripes)
-ClimateStripes(city.name = "rostock", plot.what = "precipitationstripes")
+require("climateStripes")
+climateStripes(city.name = "rostock", plot.what = "precipitationstripes")
 ```
 
 ``` r

@@ -1,13 +1,11 @@
 #' @title climateStripes
-#' @description Create a plot with annual deviation from mean temperature
-#' @details This main function of the package creates a barplot where every
-#' colored bar represents the deviation of the annual mean temperature from
-#' a 30-years mean. Dark red colors stand for higher mean temperatures and
-#' dark blue colors for lower mean temperatures.
-#' @aliases warmingstripes
-#' @aliases warmingStripes
+#' @description Creates a climate plots that show annual deviation from a mean value
+#' @details This main function of the package fetches the data and calls the
+#' required plotting functions.
+#' @aliases ClimateStripes
+#' @aliases climatestripes
 #' @author Kai Budde
-#' @export ClimateStripes
+#' @export climateStripes
 #' @import RCurl
 #' @param city.name A character
 #' @param weather.station.id A character
@@ -19,9 +17,9 @@
 #' plot.what == temperature: continuous or ...)
 
 # Created:     2019/06/17
-# Last edited: 2020/04/25
+# Last edited: 2020/01/03
 
-ClimateStripes <- function(city.name = NULL,
+climateStripes <- function(city.name = NULL,
                            weather.station.id = NULL,
                            startyear.mean = 1961,
                            endyear.mean = 1990,
@@ -35,7 +33,7 @@ ClimateStripes <- function(city.name = NULL,
   old.options <- getOption("stringsAsFactors")
   options(stringsAsFactors = FALSE)
 
-  json.file <- system.file("links.json", package = "ClimateStripes")
+  json.file <- system.file("links.json", package = "climateStripes")
   filename.data <- "data.zip"
 
   # Get the correct station data ###########################################
@@ -51,7 +49,8 @@ ClimateStripes <- function(city.name = NULL,
     line.of.station <- grep(city.name, df.weather.stations$Stationsname,
                             ignore.case = TRUE)
     if(length(line.of.station) == 0){
-      print("Station name not found")
+      print("Station name not found. Check one of the displayed.")
+      View(df.weather.stations)
       return(0)
     }
 
@@ -64,71 +63,65 @@ ClimateStripes <- function(city.name = NULL,
     return(0)
   }
 
-  # Download the data files ################################################
+  # Download the data files and merge data tables ##########################
 
   # Paste the correct name of the file
   # 5 digit number of station
   weather.station.id <- sprintf("%05d", weather.station.id)
 
   # Get the link to the climate data
-
   json.file <- fromJSON(file = json.file)
-  climate.data <- json.file$DWDdata
+  link.to.historical.climate.data <- json.file$DWDdata
+  link.to.recent.climate.data <- json.file$DWDdata_recent
 
-  # Get list with all zip-containers on the website and finde the one needed
-  # for the specific station ID
-  filenames <- getURL(url = climate.data, ftp.use.epsv = FALSE,
-                      dirlistonly = TRUE)
-  filenames <- gsub(pattern = "\r", replacement = "", filenames)
-  filenames <- strsplit(filenames, "\n")
-  filenames <- unlist(filenames)
 
-  filename.climate.data <- filenames[
-    grepl(pattern = paste("KL_", weather.station.id, sep=""),
-          x = filenames)]
+  # Historical Data
+  df.historical.data <- getWeatherData(
+    link.to.data = link.to.historical.climate.data,
+    weather.station.id = weather.station.id,
+    filename.data = filename.data)
 
-  filename.climate.data <- paste(climate.data, filename.climate.data,
-                                 sep="")
+  # Recent Data
+  df.recent.data <- getWeatherData(
+    link.to.data = link.to.recent.climate.data,
+    weather.station.id = weather.station.id,
+    filename.data = filename.data)
 
-  # Download zip-container
-  download.file(url = filename.climate.data, destfile = filename.data,
-                method = "auto", quiet = TRUE, mode = "wb",
-                cacheOK = TRUE)
+  # Add Recent Data to Historical Data (only if colnames are the same)
+  if(all.equal(colnames(df.historical.data), colnames(df.recent.data)) ==
+     TRUE){
+    df.data <- rbind(df.historical.data,
+                     df.recent.data[
+                       !(df.recent.data$MESS_DATUM %in% df.historical.data$MESS_DATUM),])
 
-  # Open zip-Container and save data in data.frame
-  unzip(zipfile = filename.data, exdir = "./unzippedData")
+  }else{
+    print("Not all column names of historical and recent data are equal.")
+  }
 
-  # Remove zip file
-  invisible(file.remove(filename.data))
-
-  # Read in unzipped data
-  filename.data <- grep("produkt", list.files("./unzippedData/"),
-                        value = TRUE)
-  filename.data <- paste("./unzippedData/", filename.data, sep="")
-
-  df.data <- read.csv2(file = filename.data, sep = ";",
-                       fileEncoding = "latin1")
-
-  # Remove unzipped files
-  invisible(unlink(x = "unzippedData", recursive = TRUE))
 
   # Plot data supposed to be shown #########################################
 
   plot.what <- tolower(plot.what)
+  nothingplotted <- TRUE
 
   # Yearly mean temperature ###
   if( plot.what == "all" | plot.what == "warmingstripes"){
     plot <- plotWarmingStripes(df.data, startyear.mean, endyear.mean,
                                style, station.name)
-    # Yearly precipitation ###
-    }else if( plot.what == "all" | plot.what == "precipitationstripes"){
+    nothingplotted <- FALSE
+  }
+
+  # Yearly precipitation ###
+  if(plot.what == "all" | plot.what == "precipitationstripes"){
     plot <- plotPrecipitationStripes(df.data, startyear.mean, endyear.mean,
                                      style, station.name)
+    nothingplotted <- FALSE
     # Nothing to plot ###
-    }else{
-      print(paste("Nothing plotted.Please enter a suitable value for ",
+  }
+
+  if(nothingplotted){
+    print(paste("Nothing plotted.Please enter a suitable value for ",
                 "the parameter plot.what.", sep = ""))
-      nothingplotted <- FALSE
     }
 
   if(!nothingplotted){
