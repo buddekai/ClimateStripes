@@ -19,6 +19,8 @@ The R package can now fetch data from Deutscher Wetterdienst (DWD) and plot:
 
 * [Warming Stripes](#warming-stripes) (annual deviation from the average temperature in the years 1961-1990 as colored bars)
 * [Precipitation Stripes](#precipitation-stripes) (annual deviation from the average total precipitation in the years 1961-1990 as colored bars)
+* [Wind Speed Stripes](#wind-speed-stripes) (annual deviation from the average wind speed in the years 1961-1990 as colored bars)
+* [Sunshine Duration Stripes](#precipitation-stripes) (annual deviation from the average daily sunshine duration in the years 1961-1990 as colored bars)
 
 (Most recent additions may be found in the develop-branch.)
 
@@ -45,8 +47,9 @@ require("climateStripes")
 climateStripes(city.name = "rostock", plot.what = "warmingstripes")
 ```
 
-```{r, out.width='100%', fig.align='center', fig.cap=''}
+```{r, out.width='100%', fig.align='center', fig.cap='', echo=FALSE}
 knitr::include_graphics("man/figures/WarmingStripes.png")
+knitr::include_graphics("man/figures/WarmingPoints.png")
 ```
 
 #### Precipitation Stripes
@@ -58,6 +61,35 @@ require("climateStripes")
 climateStripes(city.name = "rostock", plot.what = "precipitationstripes")
 ```
 
-```{r, out.width='100%', fig.align='center', fig.cap=''}
+```{r, out.width='100%', fig.align='center', fig.cap='', echo=FALSE}
 knitr::include_graphics("man/figures/PrecipitationStripes.png")
+knitr::include_graphics("man/figures/PrecipitationPoints.png")
+```
+
+#### Wind Speed Stripes
+
+```r
+library(devtools)
+install()
+require("climateStripes")
+climateStripes(city.name = "rostock", plot.what = "windspeedstripes")
+```
+
+```{r, out.width='100%', fig.align='center', fig.cap='', echo=FALSE}
+knitr::include_graphics("man/figures/WindspeedStripes.png")
+knitr::include_graphics("man/figures/WindspeedPoints.png")
+```
+
+#### Sunshine Duration Stripes
+
+```r
+library(devtools)
+install()
+require("climateStripes")
+climateStripes(city.name = "rostock", plot.what = "sunshinedurationstripes")
+```
+
+```{r, out.width='100%', fig.align='center', fig.cap='', echo=FALSE}
+knitr::include_graphics("man/figures/SunshineStripes.png")
+knitr::include_graphics("man/figures/SunshinePoints.png")
 ```

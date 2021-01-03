@@ -7,12 +7,15 @@
 #' @author Kai Budde
 #' @export climateStripes
 #' @import RCurl
+#' @import rjson
 #' @param city.name A character
 #' @param weather.station.id A character
 #' @param startyear.mean A number
 #' @param endyear.mean A number
 #' @param plot.what A character (can be warmingstripes, precipitation,
 #' sunlight, windspeed)
+#' To be extended with number of days without precipitation, number of days
+#' with high temperatures above 30°C, ...
 #' @param style A character (could be for
 #' plot.what == temperature: continuous or ...)
 
@@ -117,6 +120,20 @@ climateStripes <- function(city.name = NULL,
                                      style, station.name)
     nothingplotted <- FALSE
     # Nothing to plot ###
+  }
+
+  # Yearly mean daily sunshine duration ###
+  if( plot.what == "all" | plot.what == "sunshinedurationstripes"){
+    plot <- plotSunhoursStripes(df.data, startyear.mean, endyear.mean,
+                                style, station.name)
+    nothingplotted <- FALSE
+  }
+
+  # Yearly mean wind speed ###
+  if( plot.what == "all" | plot.what == "windspeedstripes"){
+    plot <- plotWindspeedStripes(df.data, startyear.mean, endyear.mean,
+                                 style, station.name)
+    nothingplotted <- FALSE
   }
 
   if(nothingplotted){

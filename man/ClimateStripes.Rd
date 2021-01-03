@@ -25,7 +25,9 @@ climateStripes(
 \item{endyear.mean}{A number}
 
 \item{plot.what}{A character (can be warmingstripes, precipitation,
-sunlight, windspeed)}
+sunlight, windspeed)
+To be extended with number of days without precipitation, number of days
+with high temperatures above 30°C, ...}
 
 \item{style}{A character (could be for
 plot.what == temperature: continuous or ...)}

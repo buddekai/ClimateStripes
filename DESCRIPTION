@@ -2,7 +2,7 @@ Package: climateStripes
 Type: Package
 Title: Create climate plots for weather stations of DWD (German
     Meteorological Service)
-Version: 0.3.3
+Version: 0.3.4
 Author: c(person("Kai", "Budde", email = "kai.budde@uni-rostock.de",
     role = c("aut", "cre"))
 Maintainer: Kai Budde <kai.budde@uni-rostock.de>

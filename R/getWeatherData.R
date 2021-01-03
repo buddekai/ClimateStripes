@@ -11,7 +11,7 @@
 #' @param weather.station.id A character (5 digit station number)
 #' @param filename.data A character (file name that contains the data)
 
-# Created:     2019/06/21
+# Created:     2021/01/03
 # Last edited: 2021/01/03
 
 getWeatherData <- function(link.to.data = NULL,
