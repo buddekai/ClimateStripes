@@ -1,5 +1,5 @@
 {
 "DWDstations": "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/daily/kl/historical/KL_Tageswerte_Beschreibung_Stationen.txt",
-"DWDdata": "ftp://ftp-cdc.dwd.de/climate_environment/CDC/observations_germany/climate/daily/kl/historical/",
-"DWDdata_recent":"ftp://ftp-cdc.dwd.de/climate_environment/CDC/observations_germany/climate/daily/kl/recent/"
+"DWDdata": "ftp://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/daily/kl/historical/",
+"DWDdata_recent":"ftp://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/daily/kl/recent/"
 }
