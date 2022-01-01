@@ -4,9 +4,9 @@ README
 ## climateStripes
 
 R package to create diagrams that show the impact of climate change. It
-started with an R function to plot Warming Stripes which were inspired
-by Ed Hawkins. The R package can now fetch data from Deutscher
-Wetterdienst (DWD) and plot:
+started with an R function to plot Warming Stripes, which were inspired
+by Ed Hawkins. The R package fetches data from Deutscher
+Wetterdienst (DWD) and is able to plot:
 
   - [Warming Stripes](#warming-stripes) (annual deviation from the
     average temperature in the years 1961-1990 as colored bars)

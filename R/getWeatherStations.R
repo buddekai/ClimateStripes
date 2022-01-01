@@ -11,7 +11,7 @@
 #' @import utils
 
 # Created:     2019/06/21
-# Last edited: 2021/01/03
+# Last edited: 2022/01/01
 
 getWeatherStations <- function(){
 
