@@ -56,7 +56,7 @@ plotWarmingStripes <- function(df, startyear.mean, endyear.mean,
     which(df.annual$deviations == max(df.annual$deviations))]
 
 
-  print(paste("Temperature mean from ",
+  print(paste("Mean temperature from ",
               startyear.mean,
               " until ",
               endyear.mean,
@@ -64,6 +64,15 @@ plotWarmingStripes <- function(df, startyear.mean, endyear.mean,
               round(mean.from.start.to.endyear, digits = 1),
               "\u00B0C.",
               sep=""))
+
+  print(paste("Mean temperature of the last year (",
+              df.annual$year[length(df.annual$year)]
+              ,"): ",
+              round(df.annual$mean[length(df.annual$year)], digits = 1),
+              "\u00B0C.",
+              sep=""))
+
+
   print(paste("Year with highest negative deviation from mean: ",
               year.highest.negative.deviation,
               " with a mean temperature of ",
@@ -148,8 +157,13 @@ plotWarmingStripes <- function(df, startyear.mean, endyear.mean,
       theme(axis.text.x = element_text(angle = 90))
   }
 
-  if(style == "continuous")
-  {
+  if(style == "continuous"){
+    # Using geom_raster() will result in a warning message
+    # ("Raster pixels are placed at uneven horizontal intervals and will be
+    # shifted. Consider using geom_tile() instead")
+    # This can be ignored because using geom_tile() instead will produce
+    # tiny white spaces between the tiles.
+
     plot.warmingStripes <-
       ggplot(df.annual, aes(x=year, y=1, fill=deviations)) +
       geom_raster() +

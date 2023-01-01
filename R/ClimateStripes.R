@@ -20,7 +20,7 @@
 #' plot.what == temperature: continuous or ...)
 
 # Created:     2019/06/17
-# Last edited: 2020/01/03
+# Last edited: 2022/01/01
 
 climateStripes <- function(city.name = NULL,
                            weather.station.id = NULL,
@@ -57,6 +57,15 @@ climateStripes <- function(city.name = NULL,
       return(0)
     }
 
+    # Choose one station if more than one is found
+    if(length(line.of.station) > 1){
+      start.date <- df.weather.stations$von_datum[line.of.station]
+      end.date <- df.weather.stations$bis_datum[line.of.station]
+
+      # Delete line with end date in the 20th century (19..)
+      line.of.station <- line.of.station[!grepl(pattern = "^19", x = end.date)]
+    }
+
     weather.station.id <- df.weather.stations$Stations_id[line.of.station]
     station.name <- df.weather.stations$Stationsname[line.of.station]
 
@@ -91,6 +100,7 @@ climateStripes <- function(city.name = NULL,
     filename.data = filename.data)
 
   # Add Recent Data to Historical Data (only if colnames are the same)
+  # and ignore duplicate rows
   if(all.equal(colnames(df.historical.data), colnames(df.recent.data)) ==
      TRUE){
     df.data <- rbind(df.historical.data,
